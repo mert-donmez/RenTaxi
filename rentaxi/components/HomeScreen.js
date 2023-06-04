@@ -49,6 +49,10 @@ const HomeScreen = () => {
             style={styles.profilePicture}
           />
         </View>
+        <View style={styles.searchAddressWrapper}>
+            <MaterialIcons name="search" size={25} style={{marginHorizontal:10,}}/>
+            <Text style={styles.whereToText}>Where To ?</Text>
+        </View>
       </MapView>
       <BottomSheet
         index={0}
@@ -85,7 +89,7 @@ const HomeScreen = () => {
             />
             <View style={styles.addressTitleWrapper}>
               <Text style={styles.upperTitle}>DROP-OFF</Text>
-              <Text style={styles.addressText}>University</Text>
+              <Text style={styles.addressText}>Select Address</Text>
             </View>
           </View>
         </View>
@@ -95,6 +99,26 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    whereToText:{
+        fontSize:20,
+    },
+    searchAddressWrapper:{
+        marginHorizontal:50,
+        marginTop:30,
+        backgroundColor:'white',
+        height:40,
+        borderRadius:10,
+        alignItems:'center',
+        flexDirection:'row',
+        shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+
+    },
   upperTitle: {
     color: "grey",
     fontSize: 10,
