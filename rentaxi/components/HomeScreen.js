@@ -10,7 +10,8 @@ import MapViewDirections from "react-native-maps-directions";
 
 
 const HomeScreen = () => {
-  const snapPoints = useMemo(() => ["25%", "50%", "65%"], []);
+  const snapPoints = useMemo(() => ['25%', '50%','60%'], []);
+
   const mapViewRef = useRef(null);
   const bottomSheetRef = useRef(null);
   const [markerCoordinate, setMarkerCoordinate] = useState(null);
@@ -22,7 +23,19 @@ const HomeScreen = () => {
 
   const handleDirectionReady = (result) => {
     setRouteDetails(result);
+    drawRoute();
   };
+
+  const drawRoute = () => {
+    if (mapViewRef.current && markerCoordinate) {
+      const routeCoordinates = [location.coords, markerCoordinate];
+      mapViewRef.current.fitToCoordinates(routeCoordinates, {
+        edgePadding: { top: 100, right:100, bottom: 300, left: 100 },
+        animated: true,
+      });
+    }
+  };
+  
 
   useEffect(() => {
     if (routeDetails) {
@@ -103,7 +116,7 @@ const HomeScreen = () => {
       </View>
       <MapView
         ref={mapViewRef}
-        style={styles.map}
+        style={{ flex: 1, marginBottom: bottomSheetSnap === 0 ? 0 : snapPoints[1] }}
         provider="google"
         userInterfaceStyle="dark"
         showsUserLocation={true}
@@ -121,26 +134,25 @@ const HomeScreen = () => {
         
       >
         {markerCoordinate && (
-          <>
-          <Marker
-            coordinate={markerCoordinate}
-            />
-            <MapViewDirections
-          origin={location.coords}
-          destination={markerCoordinate}
-          apikey={SecretTokens.googleMapsAPIKey}
-          strokeWidth={4}
-          strokeColor="green"
-          onReady={handleDirectionReady}
-        />
-            </>
-        )}
+  <>
+    <Marker coordinate={markerCoordinate} />
+    <MapViewDirections
+      origin={location.coords}
+      destination={markerCoordinate}
+      apikey={SecretTokens.googleMapsAPIKey}
+      strokeWidth={4}
+      strokeColor="green"
+      onReady={handleDirectionReady}
+    />
+  </>
+)}
+
       </MapView>
       <BottomSheet
         ref={bottomSheetRef}
         index={bottomSheetSnap}
         snapPoints={snapPoints}
-        style={styles.bottomModalstyle}
+        style={[styles.bottomModalstyle, { position: 'absolute' }]}
         handleComponent={() => (
           <TouchableOpacity style={styles.myLocationButtonWrapper} onPress={handleMyLocationButtonPress} >
             <MaterialIcons
@@ -314,7 +326,7 @@ const styles = StyleSheet.create({
   bottomModalstyle: {
     zIndex: 1,
     elevation: 1,
-    borderWidth:1,
+    
     borderRadius:10,
   },
   addressWrapper: {
