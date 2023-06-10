@@ -5,52 +5,82 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { View, Text, StyleSheet, Image, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, Image, SafeAreaView, Dimensions,TextInput } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SecretTokens } from "../secretTokens/SecretTokens";
+import { StatusBar } from "expo-status-bar";
+import * as Location from 'expo-location';
 
 const HomeScreen = () => {
-  const snapPoints = useMemo(() => ["20%", "50%"], []);
+  const snapPoints = useMemo(() => ["30%", "50%", "70%"], []);
+  const mapViewRef = useRef(null);
+  const [markerCoordinate, setMarkerCoordinate] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [mapRegion, setMapRegion] = useState(null); 
+
+  
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
   return (
     <View style={styles.container}>
+      <StatusBar style="dark" />
+      <View style={styles.titleWrapper}>
+        <View style={styles.menuIconWrapper}>
+          <MaterialIcons name="menu" size={30} />
+        </View>
+        <View style={styles.searchAddressWrapper}>
+          <MaterialIcons name="search" size={25} style={{ marginHorizontal: 10 }} />
+          <TextInput placeholder="Where To ?" placeholderTextColor={'black'} style={{fontSize:20}} />
+        </View>
+      </View>
       <MapView
+        ref={mapViewRef}
         style={styles.map}
         provider="google"
         userInterfaceStyle="dark"
         showsUserLocation={true}
-        userLocationPriority={"high"}
+        userLocationPriority="high"
         showsCompass={false}
         customMapStyle={SecretTokens.mapStyles}
+        onPress={(e) => {
+            setMarkerCoordinate(e.nativeEvent.coordinate)
+        }}
+        initialRegion={mapRegion}
+        followsUserLocation={true}
       >
-        <View style={styles.titleWrapper}>
-          <View
-            style={{
-              backgroundColor: "white",
-              height: 50,
-              width: 50,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 50,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-            }}
-          >
-            <MaterialIcons name="menu" size={40} />
-          </View>
-          
-        </View>
-        <View style={styles.searchAddressWrapper}>
-            <MaterialIcons name="search" size={25} style={{marginHorizontal:10,}}/>
-            <Text style={styles.whereToText}>Where To ?</Text>
-        </View>
+        {markerCoordinate && (
+          <Marker
+            coordinate={markerCoordinate}
+          />
+        )}
       </MapView>
       <BottomSheet
         index={0}
@@ -75,7 +105,7 @@ const HomeScreen = () => {
               name="more-vert"
               size={30}
               style={{ marginLeft: 10 }}
-              color={'grey'}
+              color={"grey"}
             />
             <View style={styles.divider} />
           </View>
@@ -88,7 +118,7 @@ const HomeScreen = () => {
             />
             <View style={styles.addressTitleWrapper}>
               <Text style={styles.upperTitle}>DROP-OFF</Text>
-              <Text style={styles.addressText}>Select Address</Text>
+              <Text style={styles.addressText}>{markerCoordinate ? markerCoordinate.latitude  : 'Select Coordinate'}</Text>
             </View>
           </View>
         </View>
@@ -98,26 +128,63 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    whereToText:{
-        fontSize:20,
-    },
-    searchAddressWrapper:{
-        marginHorizontal:50,
-        marginTop:30,
-        backgroundColor:'white',
-        height:40,
-        borderRadius:10,
-        alignItems:'center',
-        flexDirection:'row',
-        shadowColor: "#000",
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+  },
+  titleWrapper: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
+    paddingTop: 70,
+    zIndex: 1,
+  },
+  menuIconWrapper: {
+    backgroundColor: "white",
+    marginBottom:50,
+    height: 40,
+    width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 10,
-
+  },
+  searchAddressWrapper: {
+    backgroundColor: "white",
+    height: 40,
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+  },
+  whereToText: {
+    fontSize: 20,
+  },
+  bottomModalstyle: {},
+  addressWrapper: {},
+  whereYouGoingWrapper: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginLeft: 20,
+  },
   upperTitle: {
     color: "grey",
     fontSize: 10,
@@ -131,23 +198,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginVertical: 5,
   },
-  titleWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 20,
-    marginTop: 70,
-  },
-  profilePicture: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-  },
-  whereYouGoingWrapper: {
-    alignItems: "center",
-    flexDirection: "row",
-    marginLeft: 20,
-  },
   divider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: "black",
@@ -157,42 +207,6 @@ const styles = StyleSheet.create({
   addressText: {
     color: "black",
     fontSize: 16,
-  },
-  addressTextWrapper: {
-    backgroundColor: "#DDE6ED",
-    marginHorizontal: 20,
-    height: 30,
-    justifyContent: "center",
-    borderRadius: 5,
-  },
-
-  profilePicture: {
-    height: 60,
-    width: 60,
-    borderRadius: 60,
-  },
-  addressWrapper: {},
-  bottomModalstyle: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-  },
-  container: {
-    flex: 1,
-  },
-
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-    
   },
 });
 
