@@ -36,6 +36,14 @@ const HomeScreen = () => {
   const [routeDetails, setRouteDetails] = useState(null);
   const [bottomSheetSnap, setBottomSheetSnap] = useState(0);
 
+  const clearButtonPress = () => {
+    setMarkerCoordinate(null);
+    setRouteDetails(null);
+    setBottomSheetSnap(0);
+  };
+
+
+
   const handleDirectionReady = (result) => {
     setRouteDetails(result);
     drawRoute();
@@ -139,7 +147,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
-      <HomeScreenTitles routeDetails={routeDetails} />
+      <HomeScreenTitles routeDetails={routeDetails} clearButtonPress={clearButtonPress} />
       <MapView
         ref={mapViewRef}
         style={{

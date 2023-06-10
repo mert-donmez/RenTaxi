@@ -17,20 +17,20 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
         
           <View style={styles.whereYouGoingWrapper}>
             <MaterialIcons
-              name="my-location"
-              size={30}
+              name="near-me"
+              size={20}
               style={{ marginLeft: 10 }}
-              color={"#54B435"}
+              color={"grey"}
             />
             <View style={styles.addressTitleWrapper}>
-              <Text style={styles.upperTitle}>PICKUP</Text>
-              <Text style={styles.addressText}>Current Location</Text>
+              
+              <Text style={styles.addressText}>Your Location</Text>
             </View>
           </View>
           <View style={styles.middleDividerWrapper}>
             <MaterialIcons
               name="more-vert"
-              size={30}
+              size={20}
               style={{ marginLeft: 10 }}
               color={"grey"}
             />
@@ -38,13 +38,13 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
           </View>
           <View style={styles.whereYouGoingWrapper}>
             <MaterialIcons
-              name="location-on"
-              size={30}
+              name="near-me"
+              size={20}
               style={{ marginLeft: 10 }}
-              color={"#C21010"}
+              color={"black"}
             />
             <View style={styles.addressTitleWrapper}>
-              <Text style={styles.upperTitle}>DROP-OFF</Text>
+              
               <Text style={styles.addressText}>{markerCoordinate ? 'Selected on Map' : 'Select on Map'}</Text>
             </View>
             
@@ -52,54 +52,20 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
           {
             routeDetails && (
               <>
-          <View style={styles.middleDividerWrapper}>
-            <MaterialIcons
-              name="more-vert"
-              size={30}
-              style={{ marginLeft: 10 }}
-              color={"grey"}
-            />
-            <View style={styles.divider} />
-          </View>
-          
-              <View style={[styles.whereYouGoingWrapper]}>
-            <MaterialIcons
-              name="flag"
-              size={30}
-              style={{ marginLeft: 10 }}
-              color={"orange"}
-            />
-            <View style={styles.addressTitleWrapper}>
-              <Text style={[styles.upperTitle,{fontSize:15}]}>Drive Details</Text>
-              <Text style={styles.addressText}>
-              {routeDetails.duration.toFixed(0)}min {routeDetails.distance.toFixed(2)} KM
-                </Text>
-            </View>
-          </View>
-          <View style={styles.middleDividerWrapper}>
-            <MaterialIcons
-              name="more-vert"
-              size={30}
-              style={{ marginLeft: 10 }}
-              color={"grey"}
-            />
-            <View style={styles.divider} />
-          </View>
-          
-              <View style={[styles.whereYouGoingWrapper]}>
-            <MaterialIcons
-              name="payments"
-              size={30}
-              style={{ marginLeft: 10 }}
-              color={"green"}
-            />
-            <View style={styles.addressTitleWrapper}>
-              <Text style={[styles.upperTitle,{fontSize:15}]}>Payment Details</Text>
-              <Text style={styles.addressText}>
-              {calculateFare()} USD
-                </Text>
-            </View>
-          </View>
+                <View style={styles.routeDetailsWrapper}>
+                    <View>
+                        <Text>Distance</Text>
+                        <Text>4.9 km</Text>
+                    </View>
+                    <View>
+                    <Text>Distance</Text>
+                        <Text>4.9 km</Text>
+                    </View>
+                    <View>
+                    <Text>Distance</Text>
+                        <Text>4.9 km</Text>
+                    </View>
+                </View>
           </>
             )
             
@@ -113,6 +79,14 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
 export default BottomSheetModalContent
 
 const styles = StyleSheet.create({
+    routeDetailsWrapper:{
+        flexDirection:'row',
+        marginTop:20,
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginHorizontal:30,
+        
+    },
     myLocationButtonWrapper: {
         position: "absolute",
         right: 20,
@@ -152,7 +126,7 @@ const styles = StyleSheet.create({
       },
       addressText: {
         color: "black",
-        fontSize: 16,
+        fontSize: 15,
       },
       middleDividerWrapper: {
         flexDirection: "row",
@@ -164,7 +138,7 @@ const styles = StyleSheet.create({
         height: StyleSheet.hairlineWidth,
         backgroundColor: "black",
         marginLeft: 10,
-        width: "80%",
+        width: "50%",
       },
 
 })

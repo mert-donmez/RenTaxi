@@ -1,14 +1,27 @@
-import { StyleSheet, Text, View,TextInput } from 'react-native'
+import { StyleSheet, Text, View,TextInput, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons,FontAwesome } from "@expo/vector-icons";
 
-const HomeScreenTitles = ({routeDetails}) => {
+
+const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
   return (
     <>
       <View style={styles.titleWrapper}>
-        <View style={styles.menuIconWrapper}>
+        {
+          routeDetails === null ? 
+          <View style={styles.menuIconWrapper}>
           <MaterialIcons name="menu" size={30} />
         </View>
+        :
+        
+
+        <TouchableOpacity onPress={clearButtonPress} style={[styles.menuIconWrapper,{backgroundColor:'black'}]}>
+          <FontAwesome name="angle-left" size={30} color={'white'}/>
+        </TouchableOpacity >
+
+        
+        }
+        
         {
           routeDetails === null && (
             <View style={styles.searchAddressWrapper}>
