@@ -1,18 +1,18 @@
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import React from 'react'
-import {MaterialIcons} from '@expo/vector-icons'
+import {MaterialIcons,FontAwesome,FontAwesome5} from '@expo/vector-icons'
 
 
-const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationButtonPress,markerCoordinate}) => {
+const CallATaxiModalContent = ({routeDetails,calculateFare,handleMyLocationButtonPress,markerCoordinate}) => {
   return (
     <>
-      <TouchableOpacity style={styles.myLocationButtonWrapper} onPress={handleMyLocationButtonPress} >
+      {/* <TouchableOpacity style={styles.myLocationButtonWrapper} onPress={handleMyLocationButtonPress} >
             <MaterialIcons
               name="my-location"
               size={25}
               style={styles.myLocationButton}
             />
-          </TouchableOpacity> 
+          </TouchableOpacity>  */}
         <View style={styles.addressWrapper}>
         
           <View style={styles.whereYouGoingWrapper}>
@@ -24,7 +24,8 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
             />
             <View style={styles.addressTitleWrapper}>
               
-              <Text style={styles.addressText}>Your Location</Text>
+              <Text style={styles.addressText}>Start Location</Text>
+              <Text style={[styles.addressText,{color:'black',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].start_address : 'Your Location'}</Text>
             </View>
           </View>
           <View style={styles.middleDividerWrapper}>
@@ -45,7 +46,8 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
             />
             <View style={styles.addressTitleWrapper}>
               
-              <Text style={styles.addressText}>{markerCoordinate ? 'Selected on Map' : 'Select on Map'}</Text>
+            <Text style={styles.addressText}>End Location</Text>
+              <Text style={[styles.addressText,{color:'black',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].end_address : 'Select on Map'}</Text>
             </View>
             
           </View>
@@ -54,18 +56,27 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
               <>
                 <View style={styles.routeDetailsWrapper}>
                     <View>
-                        <Text>Distance</Text>
-                        <Text>4.9 km</Text>
+                        <Text style={styles.routeDetailsTitle}>Distance</Text>
+                        <Text style={styles.routeDetailssubTitle}>{routeDetails.distance.toFixed(2)} km</Text>
                     </View>
+                    <View style={styles.verDivider} />
                     <View>
-                    <Text>Distance</Text>
-                        <Text>4.9 km</Text>
+                    <Text style={styles.routeDetailsTitle}>Price</Text>
+                        <Text style={styles.routeDetailssubTitle}>{calculateFare()} $</Text>
                     </View>
+                    <View style={styles.verDivider} />
                     <View>
-                    <Text>Distance</Text>
-                        <Text>4.9 km</Text>
+                    <Text style={styles.routeDetailsTitle}>Arrival</Text>
+                        <Text style={styles.routeDetailssubTitle}>in {routeDetails.duration.toFixed(0)} min</Text>
                     </View>
                 </View>
+                <View style={styles.horDivider} />
+
+                <TouchableOpacity style={styles.getTaxiButtonWrapper}>
+                  <MaterialIcons name='hail' size={25} color={'white'} />
+                      <Text style={styles.callTaxiText}>Call a Taxi</Text>
+                </TouchableOpacity>
+                
           </>
             )
             
@@ -76,16 +87,53 @@ const BottomSheetModalContent = ({routeDetails,calculateFare,handleMyLocationBut
   )
 }
 
-export default BottomSheetModalContent
+export default CallATaxiModalContent
 
 const styles = StyleSheet.create({
+  callTaxiText:{
+    color:'white',
+    fontSize:25,
+    fontWeight:'600',
+    marginLeft:5,
+  },
+  getTaxiButtonWrapper:{
+    backgroundColor:'black',
+    height:70,
+    marginHorizontal:30,
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'row',
+    marginTop:20,
+  },
+    horDivider:{    
+        height:StyleSheet.hairlineWidth,
+        backgroundColor:'grey',
+        marginTop:10,
+        marginHorizontal:30,
+    },
+    routeDetailsTitle:{
+        color:'grey',
+        fontSize:16,
+        fontWeight:'300',
+        marginBottom:5,
+
+    },
+    routeDetailssubTitle:{
+        fontSize:16,
+        fontWeight:'500'
+    },
     routeDetailsWrapper:{
         flexDirection:'row',
         marginTop:20,
         justifyContent:'space-between',
         alignItems:'center',
         marginHorizontal:30,
-        
+    },
+    verDivider:{
+        height:'100%',
+        width:0.5,
+        backgroundColor:'grey'
     },
     myLocationButtonWrapper: {
         position: "absolute",
@@ -108,7 +156,7 @@ const styles = StyleSheet.create({
         elevation:5
       },
       addressWrapper: {
-        marginTop:50,
+        flex:1,
         
       },
       whereYouGoingWrapper: {
@@ -125,8 +173,9 @@ const styles = StyleSheet.create({
         fontSize: 10,
       },
       addressText: {
-        color: "black",
-        fontSize: 15,
+        color: "grey",
+        fontSize: 13,
+        marginRight:80,
       },
       middleDividerWrapper: {
         flexDirection: "row",

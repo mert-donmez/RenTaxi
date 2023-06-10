@@ -23,10 +23,10 @@ import { StatusBar } from "expo-status-bar";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import HomeScreenTitles from "./smallComponents/HomeScreenTitles";
-import BottomSheetModalContent from "./smallComponents/BottomSheetModalContent";
+import CallATaxiModalContent from "./smallComponents/CallATaxiModalContent";
 
 const HomeScreen = () => {
-  const snapPoints = useMemo(() => ["25%", "50%", "60%"], []);
+  const snapPoints = useMemo(() => ["20%", "45%", "60%"], []);
   const mapViewRef = useRef(null);
   const bottomSheetRef = useRef(null);
   const [markerCoordinate, setMarkerCoordinate] = useState(null);
@@ -66,26 +66,23 @@ const HomeScreen = () => {
   }, [routeDetails]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-          setErrorMsg("Permission to access location was denied");
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        setMapRegion({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        });
-      })();
-    }, 10000);
-    return () => clearInterval(interval);
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+    })();
   }, []);
-
+  
   const handleMyLocationButtonPress = useCallback(() => {
     if (mapViewRef.current && location) {
       mapViewRef.current.animateToRegion({
@@ -177,7 +174,7 @@ const HomeScreen = () => {
               destination={markerCoordinate}
               apikey={SecretTokens.googleMapsAPIKey}
               strokeWidth={4}
-              strokeColor="#FFA900"
+              strokeColor="black"
               onReady={handleDirectionReady}
             />
           </>
@@ -191,7 +188,7 @@ const HomeScreen = () => {
         snapPoints={snapPoints}
         style={[styles.bottomModalstyle, { position: "absolute" }]}
       >
-        <BottomSheetModalContent
+        <CallATaxiModalContent
           routeDetails={routeDetails}
           calculateFare={calculateFare}
           handleDirectionReady={handleDirectionReady}
@@ -216,7 +213,7 @@ const styles = StyleSheet.create({
   bottomModalstyle: {
     zIndex: 1,
     elevation: 1,
-    borderRadius: 20,
+    borderRadius: 30,
   },
 });
 
