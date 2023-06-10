@@ -9,6 +9,7 @@ import { View, Text, StyleSheet, Image, SafeAreaView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import MapView from "react-native-maps";
 import { MaterialIcons } from "@expo/vector-icons";
+import { SecretTokens } from "../secretTokens/SecretTokens";
 
 const HomeScreen = () => {
   const snapPoints = useMemo(() => ["20%", "50%"], []);
@@ -17,12 +18,12 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        mapType="terrain"
-        userInterfaceStyle="light"
+        provider="google"
+        userInterfaceStyle="dark"
         showsUserLocation={true}
         userLocationPriority={"high"}
         showsCompass={false}
-        showsTraffic={true}
+        customMapStyle={SecretTokens.mapStyles}
       >
         <View style={styles.titleWrapper}>
           <View
@@ -44,10 +45,7 @@ const HomeScreen = () => {
           >
             <MaterialIcons name="menu" size={40} />
           </View>
-          <Image
-            source={require("../assets/images/profile.png")}
-            style={styles.profilePicture}
-          />
+          
         </View>
         <View style={styles.searchAddressWrapper}>
             <MaterialIcons name="search" size={25} style={{marginHorizontal:10,}}/>
@@ -77,6 +75,7 @@ const HomeScreen = () => {
               name="more-vert"
               size={30}
               style={{ marginLeft: 10 }}
+              color={'grey'}
             />
             <View style={styles.divider} />
           </View>
@@ -193,6 +192,7 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+    
   },
 });
 
