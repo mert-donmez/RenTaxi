@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
       },
       menuIconWrapper: {
         backgroundColor: "white",
-        marginBottom: 50,
+        marginBottom: 10,
         height: 40,
         width: 40,
         justifyContent: "center",
