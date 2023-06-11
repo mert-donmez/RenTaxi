@@ -4,18 +4,20 @@ import { StatusBar } from 'expo-status-bar';
 import {MaterialIcons}from '@expo/vector-icons'
 
 const StartAppScreen = ({ navigation }) => {
+  
+
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style='dark' />
+    <View style={styles.container}>
+      <StatusBar style='light' />
       <View style={styles.titleWrapper}>
         <View style={styles.mainTitleWrapper}>
-          <MaterialIcons name='near-me' size={30} color={'#F5CE55'}/>
+          <MaterialIcons name='near-me' size={30} color={'#F29727'}/>
             <Text style={styles.mainTitle}>RenTaxi</Text>
         </View>
-        <MaterialIcons name='info' size={20} color={'black'}/>
+        <MaterialIcons name='info' size={20} color={'white'}/>
       </View>
-      <View style={styles.divider} />
+      
       <View style={styles.subTitleWrapper}>
         <Text style={styles.mainSubTitleText}>Ride Beyond Convention</Text>
         <Text style={styles.secondarySubTitleText}>Comfortable rides around the city</Text>
@@ -25,9 +27,9 @@ const StartAppScreen = ({ navigation }) => {
       </View>
       <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate('Register')}>
         <Text style={styles.buttonText}>Start</Text>
-        <MaterialIcons name='arrow-forward-ios' color={'white'} size={30}/>
+        <MaterialIcons name='arrow-forward-ios' color={'black'} size={25}/>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -39,17 +41,17 @@ const styles = StyleSheet.create({
     bottom:'10%',
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor:'black',
+    backgroundColor:'#F29727',
     borderRadius:20,
     height:'8%',
     width:'80%',
     left:'10%',
     right:'10%',
-    flexDirection:'row'
+    flexDirection:'row',
   },
   buttonText:{
-    color:'white',
-    fontSize:30,
+    color:'black',
+    fontSize:25,
     fontWeight:'500',
   },
   carImageWrapper:{
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
   subTitleWrapper:{
     justifyContent:'center',
     alignItems:'center',
-    marginTop:'20%',
+    marginTop:'10%',
   },
   mainSubTitleText:{
     color:'black',
@@ -87,7 +89,7 @@ secondarySubTitleText:{
   
   },
   mainTitle:{
-    color:'black',
+    color:'white',
     fontSize:30,
 
   },
@@ -99,7 +101,13 @@ secondarySubTitleText:{
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    marginHorizontal:'5%',
-    marginTop:'10%',
-  }
+    paddingTop:50,
+    paddingHorizontal:'5%',
+    backgroundColor:'black',
+    height:170,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+
+    
+  },
 })
