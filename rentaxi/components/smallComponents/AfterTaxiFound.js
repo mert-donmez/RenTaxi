@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View,FlatList,TouchableOpacity,Image } from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity,Image } from 'react-native'
 import React from 'react'
 import { taxiDriversData } from '../../assets/Data/DATA';
 import { MaterialIcons,FontAwesome } from "@expo/vector-icons";
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
@@ -34,9 +35,11 @@ const AfterTaxiFound = ({setIsTaxiFound}) => {
     const renderItem = ({item}) => {
        
         return (
+          
           <TaxiDriversMenu
           item={item}
           />
+ 
         );
       };
     
@@ -47,6 +50,7 @@ const AfterTaxiFound = ({setIsTaxiFound}) => {
         renderItem={renderItem}
         keyExtractor={item => item.id}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         
       />
       <TouchableOpacity style={styles.cardButton}>
@@ -56,6 +60,10 @@ const AfterTaxiFound = ({setIsTaxiFound}) => {
         </View>
         <Text style={[styles.cardNumberText,{marginRight:40}]}>change</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={()=>{setIsTaxiFound(true)}}>
+                      <Text style={styles.callTaxiText}>Order Now</Text>
+                </TouchableOpacity>
+                
       
     </View>
   )
@@ -64,6 +72,22 @@ const AfterTaxiFound = ({setIsTaxiFound}) => {
 export default AfterTaxiFound
 
 const styles = StyleSheet.create({
+    callTaxiText:{
+        color:'white',
+        fontSize:25,
+        fontWeight:'600',
+        marginLeft:5,
+      },
+      getTaxiButtonWrapper:{
+        backgroundColor:'black',
+        height:70,
+        marginHorizontal:30,
+        borderRadius:20,
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection:'row',
+        marginTop:20,
+      },
     cardNumberText:{
         color:'grey',
         fontSize:20,
@@ -111,10 +135,10 @@ const styles = StyleSheet.create({
         
     },
     carImageStyle:{
-        width:220,
-        height:220,
+        width:250,
+        height:250,
         position:'absolute',
-        top:-80,
+        top:-90,
       
     },
     cardButton:{
@@ -125,7 +149,7 @@ const styles = StyleSheet.create({
         height:70,
         marginTop:30,
         marginHorizontal:30,
-        borderRadius:30,
+        borderRadius:20,
         flexDirection:'row',
     }
 

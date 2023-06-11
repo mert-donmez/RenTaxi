@@ -27,7 +27,7 @@ import CallATaxiModalContent from "./smallComponents/CallATaxiModalContent";
 import AfterTaxiFound from "./smallComponents/AfterTaxiFound";
 
 const HomeScreen = () => {
-  const snapPoints = useMemo(() => ["20%", "45%", "60%"], []);
+  const snapPoints = useMemo(() => ["20%", "50%", "60%"], []);
   const mapViewRef = useRef(null);
   const bottomSheetRef = useRef(null);
   const [markerCoordinate, setMarkerCoordinate] = useState(null);

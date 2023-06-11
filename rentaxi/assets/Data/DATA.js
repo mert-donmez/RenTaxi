@@ -14,7 +14,7 @@ export const taxiDriversData = [
         type:'Luxury',
         price:35.96,
         duration:3,
-        people:2
+        people:4
         
     },
     {
