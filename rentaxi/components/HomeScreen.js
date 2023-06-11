@@ -24,6 +24,7 @@ import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import HomeScreenTitles from "./smallComponents/HomeScreenTitles";
 import CallATaxiModalContent from "./smallComponents/CallATaxiModalContent";
+import AfterTaxiFound from "./smallComponents/AfterTaxiFound";
 
 const HomeScreen = () => {
   const snapPoints = useMemo(() => ["20%", "45%", "60%"], []);
@@ -35,11 +36,14 @@ const HomeScreen = () => {
   const [mapRegion, setMapRegion] = useState(null);
   const [routeDetails, setRouteDetails] = useState(null);
   const [bottomSheetSnap, setBottomSheetSnap] = useState(0);
+  const [isTaxiFound,setIsTaxiFound] = useState(false);
+  
 
   const clearButtonPress = () => {
     setMarkerCoordinate(null);
     setRouteDetails(null);
     setBottomSheetSnap(0);
+    setIsTaxiFound(false);
   };
 
 
@@ -188,13 +192,23 @@ const HomeScreen = () => {
         snapPoints={snapPoints}
         style={[styles.bottomModalstyle, { position: "absolute" }]}
       >
-        <CallATaxiModalContent
+        <>
+        {
+          isTaxiFound ===false ? 
+          <CallATaxiModalContent
           routeDetails={routeDetails}
           calculateFare={calculateFare}
           handleDirectionReady={handleDirectionReady}
           handleMyLocationButtonPress={handleMyLocationButtonPress}
           markerCoordinate={markerCoordinate}
+          setIsTaxiFound={setIsTaxiFound}
         />
+        :
+        <AfterTaxiFound setIsTaxiFound={setIsTaxiFound}/>
+        }
+        
+        
+        </>
       </BottomSheet>
     </View>
   );

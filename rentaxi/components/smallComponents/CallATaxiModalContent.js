@@ -3,7 +3,7 @@ import React from 'react'
 import {MaterialIcons,FontAwesome,FontAwesome5} from '@expo/vector-icons'
 
 
-const CallATaxiModalContent = ({routeDetails,calculateFare,handleMyLocationButtonPress,markerCoordinate}) => {
+const CallATaxiModalContent = ({routeDetails,calculateFare,setIsTaxiFound}) => {
   return (
     <>
       {/* <TouchableOpacity style={styles.myLocationButtonWrapper} onPress={handleMyLocationButtonPress} >
@@ -72,7 +72,7 @@ const CallATaxiModalContent = ({routeDetails,calculateFare,handleMyLocationButto
                 </View>
                 <View style={styles.horDivider} />
 
-                <TouchableOpacity style={styles.getTaxiButtonWrapper}>
+                <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={()=>{setIsTaxiFound(true)}}>
                   <MaterialIcons name='hail' size={25} color={'white'} />
                       <Text style={styles.callTaxiText}>Call a Taxi</Text>
                 </TouchableOpacity>

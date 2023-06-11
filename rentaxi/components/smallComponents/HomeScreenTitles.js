@@ -22,15 +22,7 @@ const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
         
         }
         
-        {
-          routeDetails === null && (
-            <View style={styles.searchAddressWrapper}>
-          <MaterialIcons name="search" size={25} style={{ marginHorizontal: 10 }} />
-          
-          <TextInput placeholder="Where To ?" placeholderTextColor={'black'} style={{ fontSize: 20 }} />
-        </View>
-          )
-        }
+        
         
       </View>
     </>
