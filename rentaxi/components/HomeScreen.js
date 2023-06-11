@@ -156,7 +156,7 @@ const HomeScreen = () => {
           marginBottom: bottomSheetSnap === 0 ? 0 : snapPoints[1],
         }}
         provider="google"
-        userInterfaceStyle="dark"
+        // userInterfaceStyle="dark"
         showsUserLocation={true}
         userLocationPriority="high"
         showsMyLocationButton={false}

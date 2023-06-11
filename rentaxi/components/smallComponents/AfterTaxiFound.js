@@ -33,9 +33,8 @@ const TaxiDriversMenu = ({item}) => (
 const AfterTaxiFound = ({setIsTaxiFound}) => {
 
     const renderItem = ({item}) => {
-       
+
         return (
-          
           <TaxiDriversMenu
           item={item}
           />
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
         width:280,
         height:150,
         borderRadius:20,
-        borderWidth:0.2,
+        borderWidth:0.5,
         marginTop:30,
         
     },
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         justifyContent:'space-between',
         alignItems:'center',
-        borderWidth:0.2,
+        borderWidth:0.5,
         height:70,
         marginTop:30,
         marginHorizontal:30,
