@@ -25,7 +25,7 @@ const CallATaxiModalContent = ({routeDetails,calculateFare,setIsTaxiFound}) => {
             <View style={styles.addressTitleWrapper}>
               
               <Text style={styles.addressText}>Start Location</Text>
-              <Text style={[styles.addressText,{color:'black',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].start_address : 'Your Location'}</Text>
+              <Text style={[styles.addressText,{color:'white',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].start_address : 'Your Location'}</Text>
             </View>
           </View>
           <View style={styles.middleDividerWrapper}>
@@ -42,12 +42,12 @@ const CallATaxiModalContent = ({routeDetails,calculateFare,setIsTaxiFound}) => {
               name="near-me"
               size={20}
               style={{ marginLeft: 10 }}
-              color={"black"}
+              color={"white"}
             />
             <View style={styles.addressTitleWrapper}>
               
             <Text style={styles.addressText}>End Location</Text>
-              <Text style={[styles.addressText,{color:'black',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].end_address : 'Select on Map'}</Text>
+              <Text style={[styles.addressText,{color:'white',marginTop:5,fontSize:14}]}>{routeDetails ? routeDetails.legs[0].end_address : 'Select on Map'}</Text>
             </View>
             
           </View>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginLeft:5,
   },
   getTaxiButtonWrapper:{
-    backgroundColor:'black',
+    backgroundColor:'#F29727',
     height:70,
     marginHorizontal:30,
     borderRadius:20,
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     },
     routeDetailssubTitle:{
         fontSize:16,
-        fontWeight:'500'
+        fontWeight:'500',
+        color:'white'
     },
     routeDetailsWrapper:{
         flexDirection:'row',
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
       addressWrapper: {
         flex:1,
         
+        
       },
       whereYouGoingWrapper: {
         alignItems: "center",
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
       },
       divider: {
         height: StyleSheet.hairlineWidth,
-        backgroundColor: "black",
+        backgroundColor: "white",
         marginLeft: 10,
         width: "50%",
       },

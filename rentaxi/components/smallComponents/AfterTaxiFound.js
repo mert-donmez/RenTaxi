@@ -9,7 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 const TaxiDriversMenu = ({item}) => (
     
    <TouchableOpacity style={[styles.driversMenuWrapper,{marginLeft: item.id ==1 ? 30 : 0}]}>
-    <View style={[styles.topWrapper,{backgroundColor:item.id == 1 ? '#FFDC71' :'#DDE6ED' }]}>
+    <View style={[styles.topWrapper,{backgroundColor:item.id == 1 ? '#B7B7B7' :'#B7B7B7' }]}>
     <Image source={item.image} style={styles.carImageStyle} resizeMode='contain'/>
     </View>
     <View style={styles.bottomWrapper}>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         marginLeft:5,
       },
       getTaxiButtonWrapper:{
-        backgroundColor:'black',
+        backgroundColor:'#F29727',
         height:70,
         marginHorizontal:30,
         borderRadius:20,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     driversMenuWrapper:{
         flex:1,
-        backgroundColor:'white',
+        backgroundColor:'#E8E2E2',
         marginHorizontal:30,
         width:280,
         height:150,
@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
         
     },
     topWrapper:{
-        backgroundColor:'#DDE6ED',
         height:'50%',
         width:'80%',
         borderTopLeftRadius:20,
@@ -127,6 +126,7 @@ const styles = StyleSheet.create({
         marginHorizontal:40,
         marginTop:10,
         marginBottom:10,
+        color:'black'
     },
     durationText:{
         fontSize:20,

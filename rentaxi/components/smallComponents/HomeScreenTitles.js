@@ -6,11 +6,11 @@ import { MaterialIcons,FontAwesome } from "@expo/vector-icons";
 const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
   return (
     <>
-      <View style={styles.titleWrapper}>
+      
         {
           routeDetails === null ? 
           <View style={styles.menuIconWrapper}>
-          <MaterialIcons name="menu" size={30} />
+          <MaterialIcons name="menu" size={30} color={'white'} />
         </View>
         :
         
@@ -24,7 +24,7 @@ const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
         
         
         
-      </View>
+      
     </>
   )
 }
@@ -32,20 +32,11 @@ const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
 export default HomeScreenTitles
 
 const styles = StyleSheet.create({
-    titleWrapper: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: 20,
-        paddingTop: 70,
-        zIndex: 1,
-      },
+    
       menuIconWrapper: {
-        backgroundColor: "white",
-        marginBottom: 10,
-        height: 40,
-        width: 40,
+        backgroundColor: "black",
+        height: '5%',
+        width: '10%',
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
@@ -56,7 +47,12 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 10,
-        elevation:5
+        elevation:5,
+        position: "absolute",
+        top: '10%',
+        left: '5%',
+        zIndex: 1,
+
       },
       searchAddressWrapper: {
         backgroundColor: "white",

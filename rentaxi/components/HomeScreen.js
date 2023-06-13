@@ -57,7 +57,7 @@ const HomeScreen = () => {
     if (mapViewRef.current && markerCoordinate) {
       const routeCoordinates = [location.coords, markerCoordinate];
       mapViewRef.current.fitToCoordinates(routeCoordinates, {
-        edgePadding: { top: 100, right: 100, bottom: 300, left: 100 },
+        edgePadding: { top: 100, right: 50, bottom: 600, left: 50 },
         animated: true,
       });
     }
@@ -127,7 +127,7 @@ const HomeScreen = () => {
       <View
         style={[
           {
-            backgroundColor: "white",
+            backgroundColor: "black",
             borderRadius: 30,
             shadowColor: "#000",
             shadowOffset: {
@@ -153,10 +153,10 @@ const HomeScreen = () => {
         ref={mapViewRef}
         style={{
           flex: 1,
-          marginBottom: bottomSheetSnap === 0 ? 0 : snapPoints[1],
+          
         }}
         provider="google"
-        // userInterfaceStyle="dark"
+        
         showsUserLocation={true}
         userLocationPriority="high"
         showsMyLocationButton={false}
