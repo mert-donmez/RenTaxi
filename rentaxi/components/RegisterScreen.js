@@ -81,6 +81,14 @@ const RegisterScreen = ({navigation}) => {
         <Text style={styles.registerButtonText}>Register</Text>
         <MaterialIcons name='arrow-forward-ios' size={20} color={'black'}/>
       </TouchableOpacity>
+     
+      <View style={{justifyContent:'center',alignItems:'center',marginVertical:'5%'}}>
+        <Text style={{color:'grey',fontSize:16}}>Already have an account?</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+          <Text style={{color:'#F29727',fontSize:16}}>Login</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.divider}/>
       <Text style={{textAlign:'center',marginBottom:20,fontSize:16,fontWeight:'500',color:'grey'}}>Or Continue with </Text>
       <View style={styles.registerWithSocialWrapper}>
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
     height:StyleSheet.hairlineWidth,
     backgroundColor:'black',
     marginHorizontal:'10%',
-    marginVertical:'10%',
+    marginBottom:'5%',
   },
   registerButtonText:{
     color:'black',
