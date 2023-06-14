@@ -90,7 +90,7 @@ const RegisterScreen = ({navigation}) => {
       </View>
 
       <View style={styles.divider}/>
-      <Text style={{textAlign:'center',marginBottom:20,fontSize:16,fontWeight:'500',color:'grey'}}>Or Continue with </Text>
+      <Text style={{textAlign:'center',marginBottom:20,fontSize:16,fontWeight:'500',color:'grey'}}>Or Continue with</Text>
       <View style={styles.registerWithSocialWrapper}>
         <TouchableOpacity style={styles.socialIcon}>
           <Image source={require('../assets/images/googleIcon.png')} style={styles.iconStyle}/>

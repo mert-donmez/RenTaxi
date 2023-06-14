@@ -30,7 +30,7 @@ const TaxiDriversMenu = ({item}) => (
   );
 
 
-const AfterTaxiFound = ({setIsTaxiFound}) => {
+const AfterTaxiFound = ({setIsTaxiFound,setIsTaxiCalled}) => {
 
     const renderItem = ({item}) => {
 
@@ -59,7 +59,7 @@ const AfterTaxiFound = ({setIsTaxiFound}) => {
         </View>
         <Text style={[styles.cardNumberText,{marginRight:40}]}>change</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={()=>{setIsTaxiFound(true)}}>
+      <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={()=>{setIsTaxiCalled(true)}}>
                       <Text style={styles.callTaxiText}>Order Now</Text>
                 </TouchableOpacity>
                 
