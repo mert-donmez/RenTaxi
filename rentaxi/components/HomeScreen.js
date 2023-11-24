@@ -18,7 +18,7 @@ import {
 import BottomSheet from "@gorhom/bottom-sheet";
 import MapView, { Marker } from "react-native-maps";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
-import { SecretTokens } from "../secretTokens/SecretTokens";
+import { SecretTokens } from "../SecretTokens";
 import { StatusBar } from "expo-status-bar";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
