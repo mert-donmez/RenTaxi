@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View,TouchableOpacity,Image } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
 import { taxiDriversData } from '../../assets/Data/DATA';
 import { MaterialIcons,FontAwesome } from "@expo/vector-icons";
 import { FlatList } from 'react-native-gesture-handler';
 
 
 
-const TaxiDriversMenu = ({item}) => (
+const TaxiDriversMenu = ({item,selectedId,setSelectedId,price}) => (
     
-   <TouchableOpacity style={[styles.driversMenuWrapper,{marginLeft: item.id ==1 ? 30 : 0}]}>
+    <TouchableOpacity style={[styles.driversMenuWrapper,{marginLeft: item.id ==1 ? 30 : 0,borderWidth:item.id === selectedId ? 5 : null,borderColor:item.id === selectedId ? '#F29727' : null}]} onPress={() => setSelectedId(item.id)}>
+
     <View style={[styles.topWrapper,{backgroundColor:item.id == 1 ? '#B7B7B7' :'#B7B7B7' }]}>
     <Image source={item.image} style={styles.carImageStyle} resizeMode='contain'/>
     </View>
@@ -16,7 +17,7 @@ const TaxiDriversMenu = ({item}) => (
         
         <View style={styles.priceWrapper}>
             <Text style={styles.priceText}>{item.type}</Text>
-            <Text style={styles.priceText}>${item.price}</Text>
+            <Text style={styles.priceText}>{item.id === 1 ? price : (price*1.25).toFixed(2) } $</Text>
         </View>
         <View style={styles.durationWrapper}>
             <Text style={styles.durationText}>{item.duration} min</Text>
@@ -30,13 +31,17 @@ const TaxiDriversMenu = ({item}) => (
   );
 
 
-const AfterTaxiFound = ({setIsTaxiFound,setIsTaxiCalled}) => {
+const AfterTaxiFound = ({setIsTaxiFound,setIsTaxiCalled,price}) => {
+    const [selectedId, setSelectedId] = useState(null);
 
     const renderItem = ({item}) => {
 
         return (
           <TaxiDriversMenu
           item={item}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          price={price}
           />
  
         );

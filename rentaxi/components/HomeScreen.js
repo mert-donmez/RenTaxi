@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
   useEffect,
+  useContext
 } from "react";
 import {
   View,
@@ -26,44 +27,33 @@ import HomeScreenTitles from "./smallComponents/HomeScreenTitles";
 import CallATaxiModalContent from "./smallComponents/CallATaxiModalContent";
 import AfterTaxiFound from "./smallComponents/AfterTaxiFound";
 import TaxiCalled from "./smallComponents/TaxiCalled";
+import { GlobalContext } from "../context/GlobalContext";
+
 
 const HomeScreen = () => {
-  const snapPoints = useMemo(() => ["20%", "50%", "60%"], []);
-  const mapViewRef = useRef(null);
-  const bottomSheetRef = useRef(null);
-  const [markerCoordinate, setMarkerCoordinate] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [mapRegion, setMapRegion] = useState(null);
-  const [routeDetails, setRouteDetails] = useState(null);
-  const [bottomSheetSnap, setBottomSheetSnap] = useState(0);
-  const [isTaxiFound,setIsTaxiFound] = useState(false);
-  const [isTaxiCalled,setIsTaxiCalled] = useState(false);
-  
+  const {snapPoints,
+    mapViewRef,
+    bottomSheetRef,
+    markerCoordinate, setMarkerCoordinate,
+    location, setLocation,
+    errorMsg, setErrorMsg,
+    mapRegion, setMapRegion,
+    handleMyLocationButtonPress,
+    routeDetails, setRouteDetails,
+    bottomSheetSnap, setBottomSheetSnap,
+    isTaxiFound, setIsTaxiFound,
+    isTaxiCalled, setIsTaxiCalled,
+    price, setPrice,handleDirectionReady,drawRoute} = useContext(GlobalContext);
 
   const clearButtonPress = () => {
     setMarkerCoordinate(null);
     setRouteDetails(null);
     setBottomSheetSnap(0);
     setIsTaxiFound(false);
+    setIsTaxiCalled(false);
   };
 
 
-
-  const handleDirectionReady = (result) => {
-    setRouteDetails(result);
-    drawRoute();
-  };
-
-  const drawRoute = () => {
-    if (mapViewRef.current && markerCoordinate) {
-      const routeCoordinates = [location.coords, markerCoordinate];
-      mapViewRef.current.fitToCoordinates(routeCoordinates, {
-        edgePadding: { top: 100, right: 50, bottom: 600, left: 50 },
-        animated: true,
-      });
-    }
-  };
 
   useEffect(() => {
     if (routeDetails) {
@@ -89,16 +79,6 @@ const HomeScreen = () => {
     })();
   }, []);
   
-  const handleMyLocationButtonPress = useCallback(() => {
-    if (mapViewRef.current && location) {
-      mapViewRef.current.animateToRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      });
-    }
-  }, [location]);
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -119,6 +99,7 @@ const HomeScreen = () => {
         timeRate * time +
         distanceRate * distance
       ).toFixed(2);
+      setPrice(fare);
       return fare;
     }
     return 0;
@@ -158,7 +139,6 @@ const HomeScreen = () => {
           
         }}
         provider="google"
-        
         showsUserLocation={true}
         userLocationPriority="high"
         showsMyLocationButton={false}
@@ -207,11 +187,15 @@ const HomeScreen = () => {
         />
         }
         {
-          isTaxiFound && isTaxiCalled === false ?
-        <AfterTaxiFound setIsTaxiFound={setIsTaxiFound} setIsTaxiCalled={setIsTaxiCalled}/>
-        :
-        <TaxiCalled />
+          isTaxiFound && isTaxiCalled === false &&
+        <AfterTaxiFound setIsTaxiFound={setIsTaxiFound} setIsTaxiCalled={setIsTaxiCalled} price={price}/>
+
         }
+        {
+          isTaxiCalled &&
+          <TaxiCalled price={price}/>
+        }
+
         
         
         </>

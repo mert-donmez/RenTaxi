@@ -84,7 +84,7 @@ const RegisterScreen = ({navigation}) => {
      
       <View style={{justifyContent:'center',alignItems:'center',marginVertical:'5%'}}>
         <Text style={{color:'grey',fontSize:16}}>Already have an account?</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Driver')}>
           <Text style={{color:'#F29727',fontSize:16}}>Login</Text>
         </TouchableOpacity>
       </View>
