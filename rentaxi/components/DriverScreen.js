@@ -12,7 +12,7 @@ import HomeScreenTitles from './smallComponents/HomeScreenTitles';
 
 
 
-const DriverScreen = () => {
+const DriverScreen = ({navigation}) => {
     const {snapPoints,
         mapViewRef,
         bottomSheetRef,
@@ -119,7 +119,7 @@ const DriverScreen = () => {
   return (
     <View style={styles.container}>
         <StatusBar style="dark" />
-        <HomeScreenTitles  />
+        <HomeScreenTitles navigation={navigation} driver={true} />
         <MapView
         ref={mapViewRef}
         style={{

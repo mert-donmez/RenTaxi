@@ -30,7 +30,7 @@ import TaxiCalled from "./smallComponents/TaxiCalled";
 import { GlobalContext } from "../context/GlobalContext";
 
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const {snapPoints,
     mapViewRef,
     bottomSheetRef,
@@ -131,7 +131,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
-      <HomeScreenTitles routeDetails={routeDetails} clearButtonPress={clearButtonPress} />
+      <HomeScreenTitles routeDetails={routeDetails} clearButtonPress={clearButtonPress} navigation={navigation} />
       <MapView
         ref={mapViewRef}
         style={{

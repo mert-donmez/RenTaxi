@@ -3,19 +3,19 @@ import React from 'react'
 import { MaterialIcons,FontAwesome } from "@expo/vector-icons";
 
 
-const HomeScreenTitles = ({routeDetails,clearButtonPress}) => {
+const HomeScreenTitles = ({routeDetails,clearButtonPress,navigation,driver}) => {
   return (
     <>
       
         {
           routeDetails === null ? 
-          <View style={styles.menuIconWrapper}>
+          <TouchableOpacity style={styles.menuIconWrapper} onPress={()=>{navigation.goBack()}}>
           <MaterialIcons name="menu" size={30} color={'white'} />
-        </View>
+        </TouchableOpacity>
         :
         
 
-        <TouchableOpacity onPress={clearButtonPress} style={[styles.menuIconWrapper,{backgroundColor:'black'}]}>
+        <TouchableOpacity onPress={driver ? ()=> navigation.goBack() : clearButtonPress} style={[styles.menuIconWrapper,{backgroundColor:'black'}]}>
           <FontAwesome name="angle-left" size={30} color={'white'}/>
         </TouchableOpacity >
 
