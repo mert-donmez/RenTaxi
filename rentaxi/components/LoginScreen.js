@@ -1,20 +1,25 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity,TextInput } from 'react-native'
-import React,{useContext,useState} from 'react'
+import { SafeAreaView, StyleSheet, Text, View,Image,TouchableOpacity,TextInput } from 'react-native'
+import React,{useState,useContext} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import {MaterialIcons}from '@expo/vector-icons'
-import { Alert } from 'react-native';
 import { GlobalContext } from '../context/GlobalContext';
 
-const RegisterScreen = ({navigation}) => {
-  const {email,password,handleRegister,setEmail,setPassword} = useContext(GlobalContext);
+const LoginScreen = ({navigation}) => {
+
+  const {email,password,handleLogin,setEmail,setPassword,userInfo} = useContext(GlobalContext);
   const [error,setError] = useState('');
 
 
-  const handleClickRegisterButton = async () => {
+  const handleClickLoginButton = async () => {
     if (email && password) {
-    let res = await handleRegister();
+    let res = await handleLogin();
     if (res.status) {
-      navigation.navigate('Login');
+      if(res.data.role === 'driver'){
+        navigation.navigate('Driver');
+      }
+      else{
+        navigation.navigate('Home');
+      }
     }else{
       setError(res.message);
     }
@@ -26,57 +31,7 @@ const RegisterScreen = ({navigation}) => {
   }
 
 
-  const termsOfUseAlert = () => {
-    Alert.alert(
-      "Terms of Use",
-      `By using RenTaxi, you agree to the Terms of Use. Please read them carefully.\n\n
-      1. You must be 18 years or older to use RenTaxi.\n
-      2. You must be a human. Accounts registered by \"bots\" or other automated methods are not permitted.\n
-      3. You must provide your legal full name, a valid email address, and any other information requested in order to complete the signup process.\n
-      4. You are responsible for maintaining the security of your account and password. We cannot and will not be liable for any loss or damage from your failure to comply with this security obligation.\n
-      `,
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style:'destructive'
-          
-        },
-        {
-          text: "I Agree",
-          onPress: () => console.log("I Agree Pressed"),
-          style:'default'
-          
-        },
-      ],
-      { cancelable: false }
-    );
-  };
 
-  const privacyPolicyAlert = () => {  
-    Alert.alert(
-      "Privacy Policy",
-      `By using RenTaxi, you agree to the Privacy Policy. Please read them carefully.\n\n
-      1. You must be 18 years or older to use RenTaxi.\n
-      2. You must be a human. Accounts registered by \"bots\" or other automated methods are not permitted.\n
-      3. You must provide your legal full name, a valid email address, and any other information requested in order to complete the signup process.\n
-      4. You are responsible for maintaining the security of your account and password. We cannot and will not be liable for any loss or damage from your failure to comply with this security obligation.\n
-      `,
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style:'destructive',
-        },
-        {
-          text: "I Agree",
-          onPress: () => console.log("I Agree Pressed"),
-          style:'default',
-        },
-      ],
-      { cancelable: false }
-    );
-  };
   return (
     <View style={styles.container}>
       <StatusBar  style='light'/>
@@ -89,7 +44,7 @@ const RegisterScreen = ({navigation}) => {
             <Text style={styles.mainTitle}>RenTaxi</Text>
         </View>
       </View>
-      <Text style={styles.componentName}>Create New Account</Text>
+      <Text style={styles.componentName}>Login</Text>
       <View style={styles.registerFormWrapper}>
         <View style={styles.inputWrapper}>
           <TextInput placeholder='Email' style={styles.textInput} placeholderTextColor={'black'} onChangeText={(text)=>setEmail(text)} value={email}/>
@@ -101,15 +56,15 @@ const RegisterScreen = ({navigation}) => {
       {
         error && <Text style={{color:'red',textAlign:'center',marginVertical:'5%'}}>{error}</Text>
       }
-      <TouchableOpacity style={styles.registerButton} onPress={handleClickRegisterButton}>
-        <Text style={styles.registerButtonText}>Register</Text>
+      <TouchableOpacity style={styles.registerButton} onPress={handleClickLoginButton}>
+        <Text style={styles.registerButtonText}>Login</Text>
         <MaterialIcons name='arrow-forward-ios' size={20} color={'black'}/>
       </TouchableOpacity>
      
       <View style={{justifyContent:'center',alignItems:'center',marginVertical:'5%'}}>
-        <Text style={{color:'grey',fontSize:16}}>Already have an account?</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
-          <Text style={{color:'#F29727',fontSize:16}}>Login</Text>
+        <Text style={{color:'grey',fontSize:16}}>Don't you have an account?</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
+          <Text style={{color:'#F29727',fontSize:16}}>Register</Text>
         </TouchableOpacity>
       </View>
 
@@ -125,24 +80,11 @@ const RegisterScreen = ({navigation}) => {
         
 
       </View>
-      <View style={{justifyContent:'center',alignItems:'center'}}>
-      <Text style={styles.privacyInfoText}>
-        By clicking register you agree to our 
-        <TouchableOpacity  onPress={termsOfUseAlert}>
-        <Text style={{color:'#F29727',fontSize:16,marginTop:10}}> Terms of Service </Text>
-        </TouchableOpacity>
-         <Text>and</Text> 
-         <TouchableOpacity onPress={privacyPolicyAlert}>
-         <Text style={{color:'#F29727',fontSize:16}}> Privacy Policy </Text>
-         </TouchableOpacity>
-
-      </Text>
-      </View>
     </View>
   )
 }
 
-
+export default LoginScreen
 
 const styles = StyleSheet.create({
   privacyInfoText:{
@@ -247,5 +189,3 @@ const styles = StyleSheet.create({
     
   },
 })
-
-export default RegisterScreen

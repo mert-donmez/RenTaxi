@@ -1,9 +1,20 @@
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{useContext,useState} from 'react'
 import {MaterialIcons,FontAwesome,FontAwesome5} from '@expo/vector-icons'
+import { GlobalContext } from '../../context/GlobalContext'
 
 
 const CallATaxiModalContent = ({routeDetails,calculateFare,setIsTaxiFound}) => {
+  const {callATaxi} = useContext(GlobalContext);
+
+  const handleClick = async () => {
+    let res = await callATaxi();
+    if(res.status === true){
+      setIsTaxiFound(true);
+    }
+
+  }
+
   return (
     <>
       {/* <TouchableOpacity style={styles.myLocationButtonWrapper} onPress={handleMyLocationButtonPress} >
@@ -72,7 +83,7 @@ const CallATaxiModalContent = ({routeDetails,calculateFare,setIsTaxiFound}) => {
                 </View>
                 <View style={styles.horDivider} />
 
-                <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={()=>{setIsTaxiFound(true)}}>
+                <TouchableOpacity style={styles.getTaxiButtonWrapper} onPress={handleClick}>
                   <MaterialIcons name='hail' size={25} color={'white'} />
                       <Text style={styles.callTaxiText}>Call a Taxi</Text>
                 </TouchableOpacity>

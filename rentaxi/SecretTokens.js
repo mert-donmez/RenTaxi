@@ -1,5 +1,5 @@
 export const SecretTokens = {
-    googleMapsAPIKey : 'Your Google Maps API Key',
+    googleMapsAPIKey : 'secret',
     mapStyles : [
         {
           "featureType": "poi.business",

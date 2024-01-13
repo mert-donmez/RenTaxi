@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es6",   
+      "module": "commonjs",
+      "outDir": "./dist",  
+      "rootDir": "./",     
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true
+    },
+    "include": [
+      "server.ts",
+      "package.json",
+      "./routes/**/*.ts",
+      "./controller/**/*.ts"
+, "controller/socket.js"    ],
+    "exclude": ["node_modules"]
+  }
+  

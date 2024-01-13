@@ -4,11 +4,13 @@ import {View,Text,TouchableOpacity,StyleSheet} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
 import { SecretTokens } from "../SecretTokens";
 import MapViewDirections from "react-native-maps-directions";
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { GlobalContext } from '../context/GlobalContext';
 import BottomSheet from "@gorhom/bottom-sheet";
 import HomeScreenTitles from './smallComponents/HomeScreenTitles';
+import io from 'socket.io-client';
+
 
 
 
@@ -17,10 +19,30 @@ const DriverScreen = ({navigation}) => {
         mapViewRef,
         bottomSheetRef,
         markerCoordinate, setMarkerCoordinate,mapRegion, setMapRegion,
-        bottomSheetSnap} = useContext(GlobalContext);
-        const [customerLocations, setCustomerLocations] = useState([]);
+        bottomSheetSnap,userInfo,baseURL} = useContext(GlobalContext);
+        const [rideRequest, setRideRequest] = useState(null);
+        
+        const socket = io('http://localhost:4545');
+        
+        useEffect(() => {
+      socket.on('callTaxi', (data) => {
+        setRideRequest({
+          email: data.data.email,
+          location: (data.data.location),
+          destination: (data.data.destination),
+        });
+      
+        console.log('New Ride Call:', data);
+      });
 
-        //set driver location gaziantep:
+
+    return () => {
+        socket.off('callTaxi');
+    };
+  }, [rideRequest]);
+
+
+
         const [currentLocation, setCurrentLocation] = useState({
             latitude: 37.06622,
             longitude: 37.38332,
@@ -28,26 +50,23 @@ const DriverScreen = ({navigation}) => {
             longitudeDelta: 0.05,
             });
 
+            useEffect(() => {
+                socket.on('callTaxi', (data) => {
+                  console.log('New Ride !!!:', data);
+                });
+              return () => {
+                if (userInfo.role === 'driver') {
+                  socket.off('callTaxi');
+                }
+              };
+            }, [userInfo]);
+
+              
+              
+
             
 
-
-            useEffect(() => {
-                const randomCustomerLocations = [];
-                for (let i = 0; i < 5; i++) {
-                    let randomLatitude =
-                        currentLocation.latitude + (Math.random() - 0.5) * 0.1;
-                    let randomLongitude =
-                        currentLocation.longitude + (Math.random() - 0.5) * 0.1;
-                    randomCustomerLocations.push({
-                        latitude: randomLatitude,
-                        longitude: randomLongitude,
-                    });
-                    }
-                    setCustomerLocations(randomCustomerLocations);
-
-            }, [currentLocation]);
-
-        const customerInfos = (name,min,) =>{
+        const customerInfos = (name,min) =>{
             return(
                 <View style={styles.driverWrapper}>
                     <View style={styles.driverImageWrapper}>
@@ -86,34 +105,7 @@ const DriverScreen = ({navigation}) => {
             );
           };
 
-          const drawRouteForCustomer = (customerLocation) => {
-            if (mapViewRef.current && customerLocation) {
-              const routeCoordinates = [currentLocation, customerLocation];
-              mapViewRef.current.fitToCoordinates(routeCoordinates, {
-                edgePadding: { top: 100, right: 50, bottom: 600, left: 50 },
-                animated: true,
-              });
-            }
-          }
           
-            const getDistance = (location1, location2) => {
-                const lat1 = location1.latitude;
-                const lon1 = location1.longitude;
-                const lat2 = location2.latitude;
-                const lon2 = location2.longitude;
-                const R = 6371;
-                const dLat = ((lat2 - lat1) * Math.PI) / 180;
-                const dLon = ((lon2 - lon1) * Math.PI) / 180;
-                const a =
-                  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos((lat1 * Math.PI) / 180) *
-                    Math.cos((lat2 * Math.PI) / 180) *
-                    Math.sin(dLon / 2) *
-                    Math.sin(dLon / 2);
-                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                const d = R * c;
-                return d * 1000;
-              }
 
 
   return (
@@ -136,52 +128,48 @@ const DriverScreen = ({navigation}) => {
         onPress={(e) => {
           setMarkerCoordinate(e.nativeEvent.coordinate);
         }}
-        initialRegion={mapRegion}
+        initialRegion={currentLocation}
         followsUserLocation={true}
       >
-        {customerLocations.map((customerLocation, index) => (
-          <Marker
-            key={index}
-            coordinate={customerLocation}
-            title={`Customer ${index + 1}`}
-            description={`${
-                Math.round(
-                    (getDistance(currentLocation, customerLocation) / 1000) * 100
-                ) / 100
-                } km away`}
-
-            pinColor="black"
-          />
-        ))}{
             <Marker
             coordinate={currentLocation}
             title="You"
             description="Your location"
             pinColor="green"
           />
-        }
-        {customerLocations.map((customerLocation, index) => (
+        {rideRequest && (
+        <>
+          <Marker
+            coordinate={rideRequest.location}
+            title="Customer"
+            description="Customer location"
+            pinColor="blue"
+          />
+
           <MapViewDirections
-            key={index}
             origin={currentLocation}
-            destination={customerLocation}
+            destination={rideRequest.location}
             apikey={SecretTokens.googleMapsAPIKey}
             strokeWidth={3}
-            strokeColor="black"
-            optimizeWaypoints={true}
-            onStart={(params) => {
-              console.log(
-                `Started routing between "${params.origin}" and "${params.destination}"`
-              );
-            }}
-            onReady={(result) => {
-              drawRouteForCustomer(customerLocation);
-            }}
-            onError={(errorMessage) => {
-              console.log("GOT AN ERROR", errorMessage);
-            }}
+            strokeColor="green"
           />
-        ))}
+
+          <MapViewDirections
+            origin={rideRequest.location}
+            destination={rideRequest.destination}
+            apikey={SecretTokens.googleMapsAPIKey}
+            strokeWidth={3}
+            strokeColor="red"
+          />
+          <Marker
+            coordinate={rideRequest.destination}
+            title="Destination"
+            description="Destination location"
+            pinColor="red"
+          />
+        </>
+      )}
+        
       </MapView>
         <BottomSheet
             backgroundComponent={(props) => <BottomSheetBackground {...props} />}
@@ -190,12 +178,8 @@ const DriverScreen = ({navigation}) => {
             snapPoints={snapPoints}
             style={[styles.bottomModalstyle, { position: "absolute" }]}
         >
-            <Text style={{fontSize:20,fontWeight:'bold',marginBottom:10,color:'white'}}>Active Customers</Text>
-            {customerInfos('Customer 1',5)}
-            {customerInfos('Customer 2',10)}
-            {customerInfos('Customer 3',5)}
-            {customerInfos('Customer 4',7)}
-            {customerInfos('Customer 5',4)}
+            <Text style={{fontSize:20,fontWeight:'bold',marginBottom:10,color:'white'}}>Waiting For Ride</Text>
+            {rideRequest && customerInfos(rideRequest.email)}
 
 
       <TouchableOpacity style={styles.cancelButtonWrapper}>

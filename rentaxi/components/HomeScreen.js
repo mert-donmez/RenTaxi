@@ -43,7 +43,7 @@ const HomeScreen = ({navigation}) => {
     bottomSheetSnap, setBottomSheetSnap,
     isTaxiFound, setIsTaxiFound,
     isTaxiCalled, setIsTaxiCalled,
-    price, setPrice,handleDirectionReady,drawRoute} = useContext(GlobalContext);
+    price, setPrice,handleDirectionReady,drawRoute,callATaxi} = useContext(GlobalContext);
 
   const clearButtonPress = () => {
     setMarkerCoordinate(null);

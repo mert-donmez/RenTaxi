@@ -7,6 +7,7 @@ import StartAppScreen from './components/StartAppScreen';
 import RegisterScreen from './components/RegisterScreen';
 import DriverScreen from './components/DriverScreen';
 import { GlobalProvider } from './context/GlobalContext';
+import LoginScreen from './components/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
     }}>
       <Stack.Screen name="Start" component={StartAppScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Driver" component={DriverScreen} />
     </Stack.Navigator>
